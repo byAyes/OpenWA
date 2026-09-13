@@ -1,0 +1,33 @@
+# Render blueprint for OpenWA (rmyndharis/OpenWA)
+# Deploy: https://dashboard.render.com/blueprints?repo-url=https://github.com/byAyes/openwa
+
+services:
+  - type: web
+    name: openwa-api
+    env: docker
+    region: oregon
+    plan: free
+    
+    # Persistent disk for session data (survives restarts)
+    disk:
+      name: openwa-data
+      mountPath: /app/data
+      sizeGB: 1
+    
+    envVars:
+      - key: PORT
+        value: "2785"
+      - key: NODE_ENV
+        value: production
+      - key: ENGINE_TYPE
+        value: baileys
+      - key: DATABASE_TYPE
+        value: sqlite
+      - key: AUTO_START_SESSIONS
+        value: "false"
+      - key: WEBHOOK_URL
+        value: https://tu-app.onrender.com/webhook
+      - key: PUPPETEER_HEADLESS
+        value: "true"
+      - key: PUPPETEER_ARGS
+        value: --no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage
